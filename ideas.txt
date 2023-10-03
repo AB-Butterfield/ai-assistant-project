@@ -1,0 +1,3 @@
+Functionality for the AI to search and image and load it somewhere
+Functionality for the AI to draw something at random
+

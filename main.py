@@ -5,8 +5,15 @@ import webbrowser
 import wikipedia
 import wolframalpha
 import subprocess
+import pyautogui
+import os
+import time
+from configure_speech import *
+from speech_navigation import *
+# import add
 
-# Speech engine initialisation
+# # Speech engine initialisation
+
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
 engine.setProperty('voice', voices[1].id) # 0 for male, 1 for female
@@ -17,7 +24,7 @@ activationWord = 'computer' #Kiko?
 chrome_path = r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(chrome_path))
 
-def speak(text, rate = 120):
+def speak(text, rate = 150):
     engine.setProperty('rate', rate)
     engine.say(text)
     engine.runAndWait()
@@ -30,7 +37,7 @@ def parseCommand():
     print('Listening for your command')
 
     with sr.Microphone() as source:
-        listener.pause_threshold = 2
+        listener.pause_threshold = 0.5
         input_speech = listener.listen(source)
 
     try:
@@ -48,7 +55,7 @@ def parseCommand():
 # Main loop
 
 if __name__ == '__main__':
-    speak('Booted up and ready to help, captain')
+    speak('Booting up')
 
     while True:
         # Parse as a list
@@ -73,6 +80,7 @@ if __name__ == '__main__':
 
             # Navigation
             if query[0] == 'go' and query[1] == 'to':
+
                 speak('Opening...')
                 query = ' '.join(query[2:])
                 webbrowser.get('chrome').open_new(query)
@@ -82,8 +90,12 @@ if __name__ == '__main__':
 
                 # Take a note on Word
                 if query[1] == 'take' and query[2] == 'a' and query[3] == 'note':
-                    subprocess.Popen("C:\WINDOWS\system32\notepad.exe")
-
+                    # subprocess.Popen(r"D:\Users\Butters\Desktop\Kiko programs\Word.lnk")
+                    os.startfile(r"D:\Users\Butters\Desktop\Kiko programs\Word.lnk")
+                    time.sleep(2)
+                    pyautogui.press('enter')
+                    speak('Taking note')
+                    pyautogui.write(query, interval=0.05)
 
             # Apps to open
             if query[0] == 'open':
@@ -92,13 +104,19 @@ if __name__ == '__main__':
                 # League of Legends 
                 if query == 'league of legends':
                     speak('Opening league')
-                    subprocess.Popen("D:\Riot Games\Riot Client\RiotClientServices.exe")
+                    subprocess.Popen(r"D:\Riot Games\Riot Client\RiotClientServices.exe")
 
                 # Microsoft Word
 
                 # Opera GX
 
                 # Krita
+            
+            # Default workspaces
+
+            # TeachCast
+
+            #Steam / Discord / OperaGX (Initial launch?)
 
 
 
